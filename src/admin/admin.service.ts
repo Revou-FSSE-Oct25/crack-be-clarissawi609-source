@@ -16,9 +16,13 @@ export class AdminService {
   }
 
   private async createSuperAdminIfNotExists() {
+    // Mengecek apakah email ATAU username admin!
     const adminExists = await this.prisma.user.findFirst({
       where: {
-        email: 'admin@admin.com',
+        OR: [
+          { email: 'admin@admin.com' },
+          { username: 'admin' },
+        ],
       },
     });
 
@@ -33,7 +37,9 @@ export class AdminService {
           username: 'admin',
         },
       });
-      console.log('Super admin created');
+      console.log('Super admin created successfully.');
+    } else {
+      console.log('Super admin already exists, skipping creation.');
     }
   }
 
