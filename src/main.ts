@@ -6,9 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
-  
-  // Configure CORS for frontend communication
+  // Configure CORS for frontend communication (CUKUP 1 KALI SAJA)
   app.enableCors({
     origin: true,
     credentials: true,
@@ -33,7 +31,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  // WAJIB tambahkan '0.0.0.0' agar benar-benar terbuka untuk Vercel
+  await app.listen(port, '0.0.0.0');
+  console.log(`Application is running on port: ${port}`);
 }
 bootstrap();
